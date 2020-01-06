@@ -24,6 +24,7 @@ public abstract class Enemy : MonoBehaviour
         if (health <= 0)
         {
             Destroy(gameObject);
+            FindObjectOfType<AudioManager>().Play("enemyDeath");
         }
     }
 

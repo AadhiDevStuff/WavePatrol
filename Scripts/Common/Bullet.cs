@@ -16,12 +16,19 @@ public class Bullet : MonoBehaviour
         if(other.gameObject.CompareTag("Player"))
         {
             other.GetComponent<Player>().Damage(enemyBulletDamageValue);
+            Destroy(gameObject);
         }
 
         else if(other.gameObject.CompareTag("Enemy"))
         {
             other.GetComponent<Enemy>().Damage(playerBulletDamageValue);
+            Destroy(gameObject);
         }
-        Destroy(gameObject);
+
+        else if(other.CompareTag("Obstacles"))
+        {
+            Destroy(gameObject);
+        }
+       
     }
 }

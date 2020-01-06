@@ -7,7 +7,7 @@ public class Zombie : Enemy ,IDamagable
     public Transform shotPoint;
     public GameObject bullet;
     public float bulletSpeed = 20f;
-
+   
     private float timeBtwShots;
     public float startTimeBtwShots;
     public int Health { get; set; }
@@ -50,6 +50,7 @@ public class Zombie : Enemy ,IDamagable
     void Shoot()
     {
         GameObject newBullet = Instantiate(bullet, shotPoint.position, shotPoint.rotation);
+        FindObjectOfType<AudioManager>().Play("enemyShoot");
         Rigidbody2D rb = newBullet.GetComponent<Rigidbody2D>();
         rb.velocity = (transform.right * bulletSpeed);
 

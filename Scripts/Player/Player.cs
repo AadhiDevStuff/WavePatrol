@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour , IDamagable
 {
@@ -10,11 +11,14 @@ public class Player : MonoBehaviour , IDamagable
     private Vector2 movement;
     private Vector2 mousePos;
     public Camera cam;
+    public Slider healthBar;
+    private int restoreAmount;
     public int Health { get; set; }
 
     void Awake()
     {
         Health = health;
+        healthBar.maxValue = Health;
     }
     void Start()
     {
@@ -25,6 +29,11 @@ public class Player : MonoBehaviour , IDamagable
     void Update()
     {
         MoveInput();
+        healthBar.value = health;
+        if(Input.GetMouseButtonDown(1))
+        {
+            RestoreHealth();
+        }
     }
 
     private void FixedUpdate()
@@ -58,11 +67,21 @@ public class Player : MonoBehaviour , IDamagable
 
     public void Damage(int damage)
     {
+        
         health -= damage;
+        healthBar.value -= damage;
 
-        if(health <= 0)
+        if (health <= 0)
         {
+            FindObjectOfType<AudioManager>().Play("playerDeath");
             Destroy(gameObject);
         }
+    }
+
+    public void RestoreHealth()
+    {
+        restoreAmount = 5 - health;
+        health += restoreAmount;
+        healthBar.value += restoreAmount;
     }
 }
